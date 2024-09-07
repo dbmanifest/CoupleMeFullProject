@@ -1,0 +1,51 @@
+export const SIDEBAR = [
+  {
+    label: "Home",
+    icon: "/icons/home.svg",
+    activeIcon: "/icons/home_active.svg",
+    darkIcon: "/icons/home_dark.svg",
+    href: "/",
+  },
+  {
+    label: "Discover",
+    icon: "/icons/discover.svg",
+    activeIcon: "/icons/discover_active.svg",
+    darkIcon: "/icons/discover_dark.svg",
+    href: "/discover",
+  },
+  {
+    label: "Library",
+    icon: "/icons/library.svg",
+    activeIcon: "/icons/library_active.svg",
+    darkIcon: "/icons/library_dark.svg",
+    href: "/library",
+  },
+  {
+    label: "Create AI Character",
+    icon: "/icons/create.svg",
+    activeIcon: "/icons/create_active.svg",
+    darkIcon: "/icons/create_dark.svg",
+    href: "/companion/new",
+  },
+  {
+    label: "Generate Image",
+    icon: "/icons/generate_image.svg",
+    activeIcon: "/icons/generate_image_active.svg",
+    darkIcon: "/icons/generate_image_dark.svg",
+    href: "/generate-image",
+  },
+  // {
+  //   label: "My AI",
+  //   icon: "/icons/my_ai.svg",
+  //   activeIcon: "/icons/my_ai_active.svg",
+  //   darkIcon: "/icons/my_ai_dark.svg",
+  //   href: "/my-ai",
+  // },
+  {
+    label: "Subscribe",
+    icon: "/icons/my_ai.svg",
+    activeIcon: "/icons/subscribe.svg",
+    darkIcon: "/icons/subscribe.svg",
+    href: "/subscriptions",
+  },
+];

@@ -1,0 +1,257 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 346.8 77.2% 49.8%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 346.8 77.2% 49.8%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 20 14.3% 4.1%;
+    --foreground: 0 0% 95%;
+    --card: 24 9.8% 10%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 346.8 77.2% 49.8%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 12 6.5% 15.1%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 346.8 77.2% 49.8%;
+  }
+}
+
+/* Clerk */
+.cl-formButtonPrimary {
+  @apply bg-primary text-primary-foreground mt-4 h-14 text-base normal-case rounded-full;
+}
+
+.cl-card {
+  @apply bg-background shadow-none;
+}
+
+.cl-headerTitle {
+  @apply text-accent-foreground text-xl font-semibold;
+}
+
+.cl-headerSubtitle {
+  @apply text-accent-foreground/80 text-base;
+}
+
+.dark .cl-socialButtonsBlockButton {
+  @apply border-primary-foreground h-14 rounded-full;
+}
+
+.cl-socialButtonsBlockButton {
+  @apply h-14 rounded-full;
+}
+
+.cl-socialButtonsBlockButtonText {
+  @apply text-accent-foreground text-base;
+}
+
+.cl-socialButtonsBlockButtonText__apple {
+  @apply ml-10;
+}
+
+.cl-socialButtonsBlockButtonText__google {
+  @apply ml-9;
+}
+
+.cl-formFieldInput {
+  @apply rounded-full dark:bg-input h-14 dark:text-white ring-accent mt-2 text-base;
+}
+
+.cl-formFieldSuccessText {
+  @apply text-accent-foreground;
+}
+
+.cl-socialButtonsProviderIcon {
+}
+
+.dark .cl-providerIcon__apple {
+  filter: invert(1); /* Invert the colors, making it white */
+}
+
+.cl-socialButtonsBlockButtonArrow {
+  @apply stroke-accent-foreground;
+}
+
+.cl-formFieldLabel {
+  @apply text-accent-foreground text-base;
+}
+
+.cl-dividerText {
+  @apply text-accent-foreground text-base;
+}
+
+.cl-formFieldInputShowPasswordButton {
+  @apply mt-2 mr-6;
+}
+
+.dark .cl-formFieldInputShowPasswordIcon {
+  filter: invert(1);
+  width: 22px;
+  height: 22px;
+}
+
+.cl-formFieldInputShowPasswordIcon {
+  width: 22px;
+  height: 22px;
+}
+
+.dark .cl-dividerLine {
+  @apply border border-primary-foreground;
+}
+
+.cl-footerActionText {
+  @apply text-accent-foreground text-base;
+}
+
+.cl-footerActionLink {
+  @apply text-base ml-1 text-primary;
+}
+
+.cl-avatarBox {
+  @apply h-12 w-12;
+}
+
+.cl-userButtonPopoverCard {
+  @apply bg-popover;
+}
+
+.cl-userPreviewMainIdentifier {
+  @apply text-base font-medium text-accent-foreground;
+}
+
+.cl-userPreviewSecondaryIdentifier {
+  @apply text-base text-accent-foreground/80;
+}
+
+.cl-userButtonPopoverActionButtonText {
+  @apply text-sm text-accent-foreground;
+}
+
+.dark .cl-userButtonPopoverActionButtonIcon {
+  filter: invert(1);
+}
+
+.cl-navbarButton {
+  @apply text-accent-foreground;
+}
+
+.cl-profileSectionTitleText {
+  @apply text-accent-foreground;
+}
+
+.cl-accordionTriggerButton {
+  @apply text-accent-foreground;
+}
+
+.cl-internal-of57g {
+  @apply text-accent-foreground;
+}
+.cl-internal-3vf5mz {
+  @apply text-accent-foreground;
+}
+.cl-internal-fqx4fd {
+  @apply text-accent-foreground;
+}
+.cl-profileSectionPrimaryButton {
+  @apply text-primary;
+}
+
+.cl-internal-f4kk64 .cl-formButtonPrimary {
+  @apply w-fit h-fit text-base mt-0 bg-primary;
+}
+
+.cl-formButtonReset {
+  @apply text-primary rounded-full text-base normal-case;
+}
+
+.cl-breadcrumbsItem {
+  @apply text-accent-foreground;
+}
+.cl-breadcrumbsItemDivider {
+  @apply text-accent-foreground;
+}
+
+.dark .cl-modalCloseButton {
+  filter: invert(1);
+}
+
+.cl-internal-xkj3jj {
+  @apply stroke-primary;
+}
+
+.cl-internal-18y02lj {
+  @apply bg-accent rounded-full h-4 w-4 flex items-center justify-center;
+}
+.cl-internal-1gwwatx {
+  @apply w-2 h-2;
+}
+
+.cl-formFieldLabel__signOutOfOtherSessions {
+  @apply mt-1.5 ml-2;
+}
+
+.cl-internal-jqrj10 {
+  @apply rounded-full normal-case text-sm;
+}
+/* End Clerk */
+
+
+
+/* styles.css */
+
+.age-gate {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.age-gate-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.age-gate-content button {
+  margin: 0.5rem;
+}

@@ -1,0 +1,136 @@
+import { currentUser } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
+import { Configuration, OpenAIApi } from "openai"; // Import OpenAI API client
+
+import { MemoryManager } from "@/lib/memory";
+import prismadb from "@/lib/prismadb";
+import { rateLimit } from "@/lib/rate-limits";
+
+// export const maxDuration = 300;
+
+export async function POST(
+  request: Request,
+  { params }: { params: { chatId: string } }
+) {
+  try {
+    const { prompt } = await request.json();
+    const user = await currentUser();
+
+    if (!user || !user.firstName || !user.id) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const identifier = request.url + "-" + user.id;
+    const { success } = await rateLimit(identifier);
+
+    if (!success) {
+      return new NextResponse("Rate limit exceeded", { status: 429 });
+    }
+
+    const companion = await prismadb.companion.update({
+      where: {
+        id: params.chatId,
+      },
+      data: {
+        messages: {
+          create: {
+            content: prompt,
+            role: "user",
+            userId: user.id,
+          },
+        },
+      },
+    });
+
+    if (!companion) {
+      return new NextResponse("Companion not found", { status: 404 });
+    }
+
+    const name = companion.id;
+    const companion_file_name = name + ".txt";
+
+    const companionKey = {
+      companionName: name!,
+      userId: user.id,
+      modelName: "llama2-13b",
+    };
+    const memoryManager = await MemoryManager.getInstance();
+
+    const records = await memoryManager.readLatestHistory(companionKey);
+    if (records.length === 0) {
+      await memoryManager.seedChatHistory(companion.seed, "\n\n", companionKey);
+    }
+    await memoryManager.writeToHistory("User: " + prompt + "\n", companionKey);
+
+    // Query Pinecone
+
+    const recentChatHistory = await memoryManager.readLatestHistory(
+      companionKey
+    );
+
+    // Right now the preamble is included in the similarity search, but that
+    // shouldn't be an issue
+
+    const similarDocs = await memoryManager.vectorSearch(
+      recentChatHistory,
+      companion_file_name
+    );
+
+    let relevantHistory = "";
+    if (!!similarDocs && similarDocs.length !== 0) {
+      relevantHistory = similarDocs.map((doc) => doc.pageContent).join("\n");
+    }
+
+    // Set up OpenAI client
+    const configuration = new Configuration({
+      apiKey: process.env.OPENAI_API_KEY,
+      base_path: "https://digifab-fastapi.vercel.app/v1",
+    });
+    const openai = new OpenAIApi(configuration);
+
+    // Call OpenAI API
+    const response = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: `${companion.instructions}` },
+        { role: "system", content: `Below are relevant details about ${companion.name}'s past and the conversation you are in.` },
+        { role: "system", content: `${relevantHistory}` },
+        { role: "user", content: `${recentChatHistory}\n${companion.name}:` },
+        { role: "user", content: `${prompt}` }
+      ],
+      max_tokens: 2048,
+    });
+
+    const resp = response.data.choices[0].message?.content || "";
+
+    await memoryManager.writeToHistory("" + resp.trim(), companionKey);
+
+    var Readable = require("stream").Readable;
+    let s = new Readable();
+    s.push(resp);
+    s.push(null);
+
+    if (resp !== undefined && resp.length > 1) {
+      memoryManager.writeToHistory("" + resp.trim(), companionKey);
+
+      await prismadb.companion.update({
+        where: {
+          id: params.chatId,
+        },
+        data: {
+          messages: {
+            create: {
+              content: resp.trim(),
+              role: "system",
+              userId: user.id,
+            },
+          },
+        },
+      });
+    }
+
+    return new StreamingTextResponse(s);
+  } catch (error) {
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
